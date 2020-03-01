@@ -1,16 +1,17 @@
-# testing branch, changing functionality to create a whole new table
 # Program to geocode addresses from a csv file.
 
 import csv, requests, easygui, os, time, pdb
 
-#apiKey = input('What\'s your Google Maps API key?')
-apiKey = 'AIzaSyCmwWaMtacmFN3NZ9UeKHvtaw0TA52yBJM'
 mapsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 location_path = ''
 location_column = ''
 locations = []
 locationsGeo = []
 new_csv_list = []
+result_directory = 'Geocode_Results'
+
+input('This program will lookup latitude and longitude information contained in a single column of a csv file. Before you start, make sure you have a Google Maps geocode api key.')
+
 
 def getCsv():
     global location_path
@@ -21,6 +22,8 @@ def getCsv():
         getCsv()
 
 getCsv()
+
+apiKey = input('What\'s your Google Maps API key?')
 
 with open(location_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
@@ -57,9 +60,14 @@ with open(location_path, newline='') as csvfile:
             print('ERROR: Something went wrong geocoding ' + location + '. Press Enter to continue.')
             locationsGeo.append([location, 'Error', 'Error'])
 
+if not os.path.exists(result_directory):
+    os.mkdir(result_directory)
+
 geoCsvPath = os.path.basename(location_path)
 geoCsvPath = os.path.splitext(geoCsvPath)[0]
 geoCsvPath = geoCsvPath + '_geocoded_' + time.strftime("%Y%m%d-%H%M%S") + '.csv'
+geoCsvPath = os.path.join(result_directory, geoCsvPath)
+
 
 with open(geoCsvPath, 'w', newline='') as csvfile:
     fieldnames = list(new_csv_list[0].keys())
