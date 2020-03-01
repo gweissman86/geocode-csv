@@ -1,4 +1,4 @@
-# testing branch
+# testing branch, changing functionality to create a whole new table
 # Program to geocode addresses from a csv file.
 
 import csv, requests, easygui, os, time, pdb
