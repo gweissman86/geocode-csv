@@ -57,8 +57,10 @@ with open(location_path, newline='') as csvfile:
             new_csv_list.append(new_row)
             print('Coordinates added for: ' + location)
         except:
+            new_row['lat'] = 'ERROR'
+            new_row['lng'] = 'ERROR'
+            new_csv_list.append(new_row)
             print('ERROR: Something went wrong geocoding ' + location + '. Press Enter to continue.')
-            locationsGeo.append([location, 'Error', 'Error'])
 
 if not os.path.exists(result_directory):
     os.mkdir(result_directory)
