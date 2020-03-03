@@ -1,5 +1,5 @@
 # Geocode-csv
 
-This program allows the user to take a csv with a column of place names, and geocode those place names using the google maps geocode api. The program adds new lat and long columns to a new version of the csv.
+A simple application to geocode a list of place names.
 
-Currently adding functionality so that it recreates the whole table.
+Using the gmap geocode api (and your own api key), geocode a csv column of place names, and create a new csv with lat and lng added.
