@@ -10,12 +10,10 @@ locationsGeo = []
 new_csv_list = []
 result_directory = 'Geocode_Results'
 
-input('This program will lookup latitude and longitude information contained in a single column of a csv file. Before you start, make sure you have a Google Maps geocode api key.')
-
+input('This program will lookup latitude and longitude information contained in a single column of a csv file. Before you start, make sure you have a Google Maps geocode api key.\n\nSelect a csv with location names in one column. Press Enter when ready.')
 
 def getCsv():
     global location_path
-    input('Select a csv with location names in one column. Press Enter when ready.')
     location_path = easygui.fileopenbox()
     if '.csv' not in location_path:
         input('That\'s not a csv file. Press enter to try again.')
