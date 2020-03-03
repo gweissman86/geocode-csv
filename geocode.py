@@ -21,7 +21,7 @@ def getCsv():
 
 getCsv()
 
-apiKey = input('What\'s your Google Maps API key?')
+apiKey = easygui.enterbox(msg='What\'s your Google Maps API key?')
 
 with open(location_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
