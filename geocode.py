@@ -1,35 +1,36 @@
 # Program to geocode addresses from a csv file.
 
-import csv, requests, easygui, os, time, pdb
+import configparser, csv, requests, os, time, pdb
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 mapsUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-location_path = ''
-location_column = ''
+location_path = config['settings']['csv_path']
+location_column = config['settings']['location_column']
+api_key = os.environ['APIKEY'] if 'APIKEY' in os.environ else config['settings']['api_key']
 locations = []
 locationsGeo = []
 new_csv_list = []
-result_directory = 'Geocode_Results'
+result_directory = os.path.dirname(location_path)
 
-input('This program will lookup latitude and longitude information contained in a single column of a csv file. Before you start, make sure you have a Google Maps geocode api key.\n\nSelect a csv with location names in one column. Press Enter when ready.')
+input('This program will lookup latitude and longitude information contained in a single column of a csv file. Before you start, fill out config.ini with Google maps API, csv file path, and location column.') 
 
-def getCsv():
-    global location_path
-    location_path = easygui.fileopenbox()
-    if '.csv' not in location_path:
-        input('That\'s not a csv file. Press enter to try again.')
-        getCsv()
+if not api_key:
+    input('You need to enter an API key')
+    quit()
 
-getCsv()
+if 'csv' not in location_path:
+    input('You have not selected a csv file. Fix config.ini and try again.')
+    quit()
 
-apiKey = easygui.enterbox(msg='What\'s your Google Maps API key?')
 
 with open(location_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
-    location_column = easygui.choicebox(msg = 'Which column are locations in?',
-                                   title = 'Select column',
-                                   choices = reader.fieldnames)
-    print('Locations are in column "' +
-          location_column + '." The first locations listed are:')
+    if location_column not in reader.fieldnames:
+        input('location_column not found in selected CSV. Try again.')
+        quit()
+    print(location_column + '." The first locations listed are:')
     for i in range(0, 5):
         try:
             place = reader.__next__()
@@ -45,7 +46,7 @@ with open(location_path, newline='') as csvfile:
         location = row[location_column]
         new_row = row
         try:
-            r = requests.get(mapsUrl + location + '&key=' + apiKey)
+            r = requests.get(mapsUrl + location + '&key=' + api_key)
             rjson = r.json()
             latlng = rjson['results'][0]['geometry']['location']
             lat = latlng['lat']

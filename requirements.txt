@@ -1,7 +1,8 @@
 certifi==2019.11.28
 chardet==3.0.4
+charset-normalizer==2.0.4
 easygui==0.98.1
 idna==2.9
 pkg-resources==0.0.0
-requests==2.23.0
-urllib3==1.25.8
+requests==2.26.0
+urllib3==1.26.6
