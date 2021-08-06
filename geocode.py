@@ -28,7 +28,10 @@ if 'csv' not in location_path:
 with open(location_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     if location_column not in reader.fieldnames:
-        input('location_column not found in selected CSV. Try again.')
+        print(f'Inputted location_column of "{location_column}" not found in selected CSV. Available columns are:')
+        for i in reader.fieldnames:
+            print(f'"{i}"')
+        input("Try again.")
         quit()
     print(location_column + '." The first locations listed are:')
     for i in range(0, 5):
